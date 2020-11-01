@@ -1,0 +1,42 @@
+# https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package]
+name            = "wslapi"
+version         = "0.0.0-git"
+authors         = ["MaulingMonkey <git@maulingmonkey.com>"]
+edition         = "2018"
+repository      = "https://github.com/MaulingMonkey/wslapi"
+documentation   = "https://docs.rs/wslapi"
+license         = "Apache-2.0 OR MIT"
+readme          = "Readme.md"
+description     = "APIs for managing the Windows Subsystem for Linux"
+keywords        = ["wsl", "wslapi", "lxss"]
+categories      = ["api-bindings", "os::windows-apis"]
+exclude         = [".vscode"]
+
+[package.metadata.docs.rs]
+default-target  = "x86_64-pc-windows-msvc"
+targets         = ["x86_64-pc-windows-msvc", "i686-pc-windows-msvc"]
+
+[lib]
+path            = "src/_lib.rs"
+
+[dependencies]
+minidl          = "0.1"
+
+[target.'cfg(windows)'.dependencies.winapi]
+version         = "0.3.9"
+features = [
+    # shared
+    "minwindef",
+    "ntdef",
+    "winerror",
+
+    # um
+    "combaseapi",
+    "handleapi",
+    "processthreadsapi",
+    "synchapi",
+    "winbase",
+    "winnt",
+]
