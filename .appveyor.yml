@@ -1,14 +1,15 @@
 image:
+  - Visual Studio 2015
   - Visual Studio 2019
 
 install:
+  - wsl --list || ver >NUL 2>NUL
   - appveyor-retry appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
   - rustup-init.exe -y --default-host x86_64-pc-windows-msvc --default-toolchain stable
   - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
   - set RUST_BACKTRACE=1
   - rustc -V
   - cargo -V
-  - wsl --list
 
 build_script:
   - cargo build --all
