@@ -21,7 +21,7 @@ targets         = ["x86_64-pc-windows-msvc", "i686-pc-windows-msvc"]
 [lib]
 path            = "src/_lib.rs"
 
-[dependencies]
+[target.'cfg(windows)'.dependencies]
 minidl          = "0.1"
 
 [target.'cfg(windows)'.dependencies.winapi]
