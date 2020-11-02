@@ -22,7 +22,7 @@
 //!     // 0 == root, 1000+ == regular user
 //!     assert!(cfg.flags & WSL_DISTRIBUTION_FLAGS::DEFAULT == WSL_DISTRIBUTION_FLAGS::DEFAULT);
 //!     // `cfg.flags` contains extra, undocumented flags like 0x8
-//!     assert!((1..2).contains(&cfg.version)); // WSL version
+//!     assert!((1..=2).contains(&cfg.version)); // WSL version
 //!
 //!     wsl.launch_interactive(ubuntu, "echo testing 123", true).unwrap();
 //!

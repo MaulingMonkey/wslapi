@@ -14,7 +14,7 @@ fn main() {
     let cfg = wsl.get_distribution_configuration(ubuntu).unwrap();
     assert!(cfg.default_uid == 0 || (1000 ..= 2000).contains(&cfg.default_uid)); // Root or regular UID
     assert!(cfg.flags & WSL_DISTRIBUTION_FLAGS::DEFAULT == WSL_DISTRIBUTION_FLAGS::DEFAULT);
-    assert!((1..2).contains(&cfg.version)); // WSL version
+    assert!((1..=2).contains(&cfg.version)); // WSL version
 
     wsl.launch_interactive(ubuntu, "echo testing 123", true).unwrap();
 
