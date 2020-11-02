@@ -4,7 +4,7 @@
 [![crates.io](https://img.shields.io/crates/v/wslapi.svg)](https://crates.io/crates/wslapi)
 [![docs.rs](https://docs.rs/wslapi/badge.svg)](https://docs.rs/wslapi)
 [![License](https://img.shields.io/crates/l/wslapi.svg)](https://github.com/MaulingMonkey/wslapi)
-[![Build Status](https://travis-ci.com/MaulingMonkey/wslapi.svg?branch=master)](https://travis-ci.com/MaulingMonkey/wslapi)
+[![Build Status](https://img.shields.io/appveyor/build/MaulingMonkey/wslapi)](https://ci.appveyor.com/project/MaulingMonkey/wslapi)
 <!-- [![dependency status](https://deps.rs/repo/github/MaulingMonkey/wslapi/status.svg)](https://deps.rs/repo/github/MaulingMonkey/wslapi) -->
 
 
