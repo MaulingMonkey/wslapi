@@ -35,7 +35,8 @@
 //!         let script = format!("exit {}", exit);
 //!         let wsl = wsl.launch(ubuntu, "sh", true, script, (), ()).unwrap();
 //!         let status = wsl.wait().unwrap();
-//!         assert_eq!(status.code(), Some(exit & 0xFF)); // NOTE: POSIX truncates to 8 bits
+//!         assert_eq!(status.code(), Some(exit & 0xFF), "mismatch with {}", exit);
+//!         // NOTE: POSIX truncates to 8 bits
 //!     }
 //! }
 //! assert_ne!(0, found, "Found {} ubuntu distros", found);
