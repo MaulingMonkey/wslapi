@@ -30,6 +30,13 @@
 //!     let stdout = std::fs::File::create("target/basic.txt").unwrap();
 //!     let stderr = (); // shorthand for Stdio::null()
 //!     wsl.launch(ubuntu, "sh", true, stdin, stdout, stderr).unwrap().wait().unwrap();
+//!
+//!     for exit in [0, 1, 2, 3, 0xFF, 0x100, 0x101, 0x1FF].iter().copied() {
+//!         let script = format!("exit {}", exit);
+//!         let wsl = wsl.launch(ubuntu, "sh", true, script, (), ()).unwrap();
+//!         let status = wsl.wait().unwrap();
+//!         assert_eq!(status.code(), Some(exit & 0xFF)); // NOTE: POSIX truncates to 8 bits
+//!     }
 //! }
 //! assert_ne!(0, found, "Found {} ubuntu distros", found);
 //! ```

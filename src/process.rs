@@ -1,7 +1,9 @@
 use crate::Stdio;
 
+use winapi::shared::minwindef::DWORD;
 use winapi::shared::ntdef::HANDLE;
 use winapi::um::handleapi::CloseHandle;
+use winapi::um::processthreadsapi::GetExitCodeProcess;
 use winapi::um::synchapi::WaitForSingleObject;
 use winapi::um::winbase::{INFINITE, WAIT_OBJECT_0};
 
@@ -43,10 +45,14 @@ impl Process {
         let _stderr = std::mem::replace(&mut self.stderr, Stdio::null());
         let _stdout = std::mem::replace(&mut self.stdout, Stdio::null());
 
+        let mut exit_code = 0;
+        let succeeded = unsafe { GetExitCodeProcess(handle, &mut exit_code) };
+        let exit_code = if succeeded != 0 { Some(exit_code) } else { None };
+
         let succeeded = unsafe { CloseHandle(handle) };
         if succeeded == 0 { return Err(std::io::Error::last_os_error()); }
 
-        Ok(ExitStatus(()))
+        Ok(ExitStatus { exit_code })
     }
 }
 
@@ -60,7 +66,19 @@ impl std::ops::Drop for Process {
 
 
 
-/// <span style="opacity: 33%">(TODO)</span>
 /// The exit status of a WSL process.
-/// Not yet implemented.
-pub struct ExitStatus(());
+pub struct ExitStatus {
+    exit_code:  Option<DWORD>,
+}
+
+impl ExitStatus {
+    /// Was termination successful?
+    pub fn success(&self) -> bool { self.exit_code == Some(0) }
+
+    /// Returns the exit code of the process, if any.
+    pub fn code(&self) -> Option<DWORD> { self.exit_code }
+    // While POSIX truncates the result to 1 byte / 8 bits / 0xFF, it's possible
+    // that the WSL process itself could crash/fail/kernel panic/??? with other
+    // exit code results.  As such, I retain the API.  Unlike std::process::ExitCode,
+    // the mapped code in question is *unsigned*.
+}
