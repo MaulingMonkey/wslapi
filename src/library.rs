@@ -202,16 +202,16 @@ impl Library {
     /// - `Err(Error)`  - if `distribution_name` contained `'\0'` characters
     /// - `Err(Error)`  - if `distribution_name` didn't exist?
     /// - `Err(Error)`  - if `command` contained `'\0'` characters
-    /// - `Err(Error)`  - if [LaunchInteractive] otherwise failed
+    /// - `Err(Error)`  - if [WslLaunchInteractive] otherwise failed
     /// - `Ok(DWORD)`   - the exit code of the process after it exits.
     ///
     /// ### See Also
     ///
     /// - [Library::launch] - non-interactive, programatic interaction
-    /// - [LaunchInteractive] - the underlying API
+    /// - [WslLaunchInteractive] - the underlying API
     ///
     /// [Library::launch]:      crate::Library::launch
-    /// [LaunchInteractive]:    https://docs.microsoft.com/en-us/windows/win32/api/wslapi/nf-wslapi-wsllaunchinteractive
+    /// [WslLaunchInteractive]: https://docs.microsoft.com/en-us/windows/win32/api/wslapi/nf-wslapi-wsllaunchinteractive
     pub fn launch_interactive(&self, distribution_name: impl AsRef<OsStr>, command: impl AsRef<OsStr>, use_current_working_directory: bool) -> Result<DWORD> {
         let wname = distribution_name.as_ref().encode_wide().chain(Some(0)).collect::<Vec<_>>();
         let wcmd  = command.as_ref().encode_wide().chain(Some(0)).collect::<Vec<_>>();
@@ -239,13 +239,18 @@ impl Library {
     ///
     /// ### Returns
     ///
-    /// - `Ok(Process)` - if the WSL process launched successfully
-    /// - `Err(Error)`  - if [WslLaunch] failed
+    /// - `Err(Error)`  - if `distribution_name` contained `'\0'` characters
+    /// - `Err(Error)`  - if `distribution_name` didn't exist?
+    /// - `Err(Error)`  - if `command` contained `'\0'` characters
+    /// - `Err(Error)`  - if `stdin`, `stdout`, or `stderr` failed to convert to [Stdio]
+    /// - `Err(Error)`  - if `stdin`, `stdout`, or `stderr` was an invalid handle for [WslLaunch]
+    /// - `Err(Error)`  - if [WslLaunch] otherwise failed
+    /// - `Ok(Process)` - if the WSL process that launched successfully
     ///
     /// ### See Also
     ///
     /// - [Process]
-    /// - [Library::launch_interactive]
+    /// - [Library::launch_interactive] - interactive, inherits the same console handles
     /// - [WslLaunch] - the underlying API
     ///
     /// [Library::launch_interactive]:  #method.launch_interactive
