@@ -1,4 +1,4 @@
-# wslapi - APIs for managing the Windows Subsystem for Linux
+# wslapi - Managing the Windows Subsystem for Linux
 
 [![GitHub](https://img.shields.io/github/stars/MaulingMonkey/wslapi.svg?label=GitHub&style=social)](https://github.com/MaulingMonkey/wslapi)
 [![crates.io](https://img.shields.io/crates/v/wslapi.svg)](https://crates.io/crates/wslapi)
