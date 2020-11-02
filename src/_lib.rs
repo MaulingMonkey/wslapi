@@ -41,4 +41,5 @@ mod error;          pub use error::*;
 mod flags;          pub use flags::*;
 mod library;        pub use library::*;
 mod process;        pub use process::*;
+pub mod registry;
 mod stdio;          pub use stdio::*;
