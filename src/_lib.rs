@@ -17,12 +17,12 @@
 //!     if !wsl.is_distribution_registered(ubuntu) { continue }
 //!     found += 1;
 //!
-//!     let cfg = wsl.get_distribution_configuration(ubuntu).unwrap();
-//!     assert!(cfg.default_uid == 0 || (1000 ..= 2000).contains(&cfg.default_uid));
+//!     let c = wsl.get_distribution_configuration(ubuntu).unwrap();
+//!     assert!(c.default_uid == 0 || (1000 ..= 2000).contains(&c.default_uid));
 //!     // 0 == root, 1000+ == regular user
-//!     assert!(cfg.flags & WSL_DISTRIBUTION_FLAGS::DEFAULT == WSL_DISTRIBUTION_FLAGS::DEFAULT);
-//!     // `cfg.flags` contains extra, undocumented flags like 0x8
-//!     assert!((1..=2).contains(&cfg.version)); // WSL version
+//!     assert!(c.flags & WSL_DISTRIBUTION_FLAGS::DEFAULT == WSL_DISTRIBUTION_FLAGS::DEFAULT);
+//!     // `c.flags` contains extra, undocumented flags like 0x8
+//!     assert!((1..=2).contains(&c.version)); // WSL version
 //!
 //!     wsl.launch_interactive(ubuntu, "echo testing 123", true).unwrap();
 //!
