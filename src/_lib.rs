@@ -34,9 +34,14 @@
 //!     for exit in [0, 1, 2, 3, 0xFF, 0x100, 0x101, 0x1FF].iter().copied() {
 //!         let script = format!("exit {}", exit);
 //!         let wsl = wsl.launch(ubuntu, "sh", true, script, (), ()).unwrap();
-//!         let status = wsl.wait().unwrap();
-//!         assert_eq!(status.code(), Some(exit & 0xFF), "mismatch with {}", exit);
-//!         // NOTE: POSIX truncates to 8 bits
+//!         let code = wsl.wait().unwrap().code().unwrap();
+//!         if code != 0 && code & 0xFF == 0 {
+//!             // 0x100 may be truncated to 0, or coerced to something else
+//!             assert!(code == 0 || code == !0, "exit {}", exit);
+//!         } else {
+//!             // 0x101 may be truncated to 1 per POSIX
+//!             assert!(code == exit || code == exit & 0xFF, "exit {}", exit);
+//!         }
 //!     }
 //! }
 //! assert_ne!(0, found, "Found {} ubuntu distros", found);
