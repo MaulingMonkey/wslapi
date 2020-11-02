@@ -2,6 +2,10 @@ image:
   - Visual Studio 2015
   - Visual Studio 2019
 
+matrix:
+  allow_failures:
+    - image: Visual Studio 2015
+  
 install:
   - wsl --list || ver >NUL 2>NUL
   - appveyor-retry appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
