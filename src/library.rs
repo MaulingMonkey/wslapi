@@ -70,12 +70,15 @@ impl Library {
 
     /// Registers a new distribution with the Windows Subsystem for Linux (WSL).
     ///
+    /// <span style="color: red">**Consider using `wsl --import <Distro> <InstalLocation> <FileName>` instead:**</span><br>
+    /// The directory containing the executable will be registered as the `BasePath` for `rootfs` / `temp` to be placed in.<br>
+    /// This odd design choice stems from [WslRegisterDistribution] itself!  Wasn't that a bad choice as far back as Windows XP?<br>
+    /// This also limits you to a single registration per executable!
+    ///
     /// ### Arguments
     ///
     /// * `distribution_name` - Unique name representing a distribution (for example, "Fabrikam.Distro.10.01").
     /// * `tar_gz_filename` - Full path to a .tar.gz file containing the file system of the distribution to register.
-    /// * <span style="color: red; font-weight: bold">implicit:</span> The current working directory will be registered as the `BasePath` for `rootfs` / `temp` to be placed in.<br>
-    ///   This odd design choice stems from [WslRegisterDistribution] itself - consider spinning up a thread for mucking with the CWD!
     ///
     /// ### Returns
     ///
@@ -84,7 +87,8 @@ impl Library {
     /// - `Err(Error)`  - if `tar_gz_filename` contained `'\0'` characters
     /// - `Err(Error)`  - if `tar_gz_filename` wasn't an absolute path?
     /// - `Err(Error)`  - if `tar_gz_filename` wasn't a valid path
-    /// - `Err(Error)`  - if the current working directory already contains a registered distribution
+    /// - `Err(Error)`  - if the executable's directory already contains a registered distribution
+    /// - `Err(Error)`  - if the executable's directory wasn't writable?
     /// - `Err(Error)`  - if [WslRegisterDistribution] otherwise failed
     /// - `Ok(())`      - otherwise
     ///
