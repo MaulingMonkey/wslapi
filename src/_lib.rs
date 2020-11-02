@@ -37,10 +37,10 @@
 //!         let code = wsl.wait().unwrap().code().unwrap();
 //!         if code != 0 && code & 0xFF == 0 {
 //!             // 0x100 may be truncated to 0, or coerced to something else
-//!             assert!(code == 0 || code == !0, "exit {}", exit);
+//!             assert!(code == 0 || code == !0, "code {} exit {}", code, exit);
 //!         } else {
 //!             // 0x101 may be truncated to 1 per POSIX
-//!             assert!(code == exit || code == exit & 0xFF, "exit {}", exit);
+//!             assert!(code == exit || code == exit & 0xFF, "code {} exit {}", code, exit);
 //!         }
 //!     }
 //! }
